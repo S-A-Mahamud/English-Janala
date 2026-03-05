@@ -118,6 +118,42 @@
                 <img src="./assets/hero-student.png" alt="Student" class="w-full">
             </div>
         </section>
+
+           <!-- learn lessons btn section -->
+        <section class="w-11/12 mb-8 space-y-6 mx-auto">
+            <h2 class="text-4xl text-center"><span class="text-sky-400">Let's</span> Learn Vocabularies</h2>
+
+            <div id="vocabulary-container" class="flex justify-center flex-wrap gap-4 mx-auto">
+            </div>
+        </section>
+
+        <section id="word-container"
+            class="w-11/12 bg-gray-100 rounded-lg grid md:grid-cols-2 lg:grid-cols-3 mx-auto gap-4 justify-items-center md:px-6 md:py-10 mb-8">
+            <!-- Word cards will be dynamically added here -->
+            <div class="bg-[#BADEFF26] text-center p-6 rounded-lg shadow-md space-y-4 col-span-full">
+                <p>আপনি এখনো কোন Lesson Select করেন নি</p>
+                <h3 class="text-3xl font-bold">একটি Lesson Select করুন।</h3>
+            </div>
+        </section>
+
+        <!-- Open the modal using ID.showModal() method -->
+        <!-- <button class="btn" >open modal</button> -->
+        <dialog id="wordDetails" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+                <div id="modal-card">
+                 <!-- Modal content will be dynamically added here -->
+                </div>
+                <!-- <div class="modal-action"> -->
+                    <!-- <form method="dialog"> -->
+                        <!-- if there is a button in form, it will close the modal -->
+                        <div class="flex justify-between items-center gap-4 mt-2">
+                            <button class="btn btn-primary text-white">Completed Learning</button>
+                            <button class="btn" onclick="wordDetails.close()">Close</button>
+                        </div>
+                    <!-- </form> -->
+                <!-- </div> -->
+            </div>
+        </dialog>
    
     </main>
 
