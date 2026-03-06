@@ -4,6 +4,13 @@
 //     return synonymElement.join(' '); 
 // }
 
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
+
+
 const loadLessons = () => {
     const url = 'https://openapi.programming-hero.com/api/levels/all';
     fetch(url)
@@ -105,6 +112,7 @@ const displayLevelWord = (data) => {
     const wordContainer = document.getElementById('word-container');
     wordContainer.innerHTML = '';
     data.forEach(word => {
+        console.log(word);
         const wordDiv = document.createElement('div');
         wordDiv.classList.add('text-center', 'border', 'p-8', 'rounded-lg', 'shadow-sm', 'bg-[#BADEFF26]', 'space-y-2', 'w-full', 'md:w-11/12', 'mx-auto');
         wordDiv.innerHTML = `
@@ -113,7 +121,7 @@ const displayLevelWord = (data) => {
         <p class="text-xl italic font-bold">"${word.meaning ? word.meaning : 'কোনো অর্থ পাওয়া যায়নি'}/${word.pronunciation ? word.pronunciation : 'কোনো উচ্চারণ পাওয়া যায়নি'}"</p>
         <div class="flex justify-between">
             <button onclick="loadWordDetails('${word.id}')"  class="btn btn-outline btn-primary"><i class="fa-solid fa-circle-question"></i></button>
-            <button class="btn btn-outline btn-secondary"><i class="fa-solid fa-volume-high"></i></button>
+            <button onclick="pronounceWord('${word.word}')" class="btn btn-outline btn-secondary"><i class="fa-solid fa-volume-high"></i></button>
         </div>
         `;
         wordContainer.appendChild(wordDiv);
