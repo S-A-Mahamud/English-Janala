@@ -101,7 +101,7 @@ const displayLevelWord = (data) => {
         const wordContainer = document.getElementById('word-container');
         wordContainer.innerHTML = `
         <div class="bg-[#BADEFF26] text-center p-6 rounded-lg shadow-md space-y-4 col-span-full">
-                <img src="../assets/alert-error.png" alt="Sad" class="w-16 mx-auto">
+                <img src="assets/alert-error.png" alt="Sad" class="w-16 mx-auto">
                 <p>এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
                 <h3 class="text-3xl font-bold">নেক্সট Lesson এ যান</h3>
             </div>
@@ -112,7 +112,7 @@ const displayLevelWord = (data) => {
     const wordContainer = document.getElementById('word-container');
     wordContainer.innerHTML = '';
     data.forEach(word => {
-        console.log(word);
+        // console.log(word);
         const wordDiv = document.createElement('div');
         wordDiv.classList.add('text-center', 'border', 'p-8', 'rounded-lg', 'shadow-sm', 'bg-[#BADEFF26]', 'space-y-2', 'w-full', 'md:w-11/12', 'mx-auto');
         wordDiv.innerHTML = `
@@ -145,3 +145,39 @@ const displayLessons = (lessons) => {
 }
 
 loadLessons();
+
+document.getElementById('search-btn').addEventListener('click', () => {
+    removeActiveClass(); //remove active class from all buttons
+    const searchInput = document.getElementById('input-search');
+    const searchValue = searchInput.value.trim().toLowerCase();
+
+    if (searchValue === '') {
+        const wordContainer = document.getElementById('word-container');
+                wordContainer.innerHTML = `
+                <div class="bg-[#BADEFF26] text-center p-6 rounded-lg shadow-md space-y-4 col-span-full">
+                        <img src="../assets/alert-error.png" alt="Sad" class="w-16 mx-auto">                       
+                        <h3 class="text-3xl font-bold">অনুগ্রহ করে একটি শব্দ অনুসন্ধান করুন।</h3>
+                    </div>
+                `;
+        return wordContainer;
+    }   
+
+    fetch(`https://openapi.programming-hero.com/api/words/all`)
+        .then(res => res.json())
+        .then (data => {
+            const allWords = data.data;
+            const filterWord = allWords.filter(word => word.word.toLowerCase().includes(searchValue));
+            if (filterWord.length > 0) {
+                displayLevelWord(filterWord);
+            } else {
+                const wordContainer = document.getElementById('word-container');
+                wordContainer.innerHTML = `
+                <div class="bg-[#BADEFF26] text-center p-6 rounded-lg shadow-md space-y-4 col-span-full">
+                        <img src="../assets/alert-error.png" alt="Sad" class="w-16 mx-auto">
+                        <p>আপনার অনুসন্ধান অনুযায়ী কোন শব্দ পাওয়া যায়নি।</p>
+                        <h3 class="text-3xl font-bold">সঠিক শব্দ লিখুন</h3>
+                    </div>
+                `;
+            }
+        });         
+});
