@@ -4,7 +4,6 @@
 //     return synonymElement.join(' '); 
 // }
 
-
 const loadLessons = () => {
     const url = 'https://openapi.programming-hero.com/api/levels/all';
     fetch(url)
@@ -42,7 +41,6 @@ const loadWordDetails = async (id) => {
 // 2: "giant"
 //word: "Eager"
 
-
 const displayWordDetails = (word) => {
     console.log(word);
 
@@ -60,8 +58,20 @@ const displayWordDetails = (word) => {
     document.getElementById('wordDetails').showModal();
 }
 
+const loadSpinner = (status) => {
+    if (status) {
+        document.getElementById('spinner').classList.remove('hidden');
+        document.getElementById('word-container').classList.add('hidden');
+    } else {
+        document.getElementById('spinner').classList.add('hidden');
+        document.getElementById('word-container').classList.remove('hidden');
+    }
+}
+
+
 //load words by level no
 const loadWord = (id) => {
+    loadSpinner(true);
     const url = `https://openapi.programming-hero.com/api/level/${id}`; //qus
     // console.log(url);
     fetch(url)
@@ -85,10 +95,11 @@ const displayLevelWord = (data) => {
         wordContainer.innerHTML = `
         <div class="bg-[#BADEFF26] text-center p-6 rounded-lg shadow-md space-y-4 col-span-full">
                 <img src="../assets/alert-error.png" alt="Sad" class="w-16 mx-auto">
-                <p>এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+                <p>এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
                 <h3 class="text-3xl font-bold">নেক্সট Lesson এ যান</h3>
             </div>
         `;
+        loadSpinner(false);
         return;
     }
     const wordContainer = document.getElementById('word-container');
@@ -107,6 +118,7 @@ const displayLevelWord = (data) => {
         `;
         wordContainer.appendChild(wordDiv);
     })
+    loadSpinner(false);
 }
 
 // {id: 101, level_no: 1, lessonName: 'Basic Vocabulary'}
